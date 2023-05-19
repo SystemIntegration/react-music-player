@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import songs from './Music/songs';
 import Header from './Screens/Header';
-import { IconButton, Slider} from '@mui/material';
+import { IconButton, Slider, ThemeProvider, createTheme } from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import ArrowCircleLeftSharpIcon from '@mui/icons-material/ArrowCircleLeftSharp';
 import ArrowCircleRightSharpIcon from '@mui/icons-material/ArrowCircleRightSharp';
@@ -26,6 +26,7 @@ function App() {
   const [maxTime, setMaxTime] = useState(0);
   const [index, setIndex] = useState<any>();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showIcon, setShowIcon] = useState(false);
   const audioRef: any = useRef(null);
   const [volume, setVolume] = useState(1); // Initial volume value
 
@@ -131,6 +132,13 @@ function App() {
     }
   }
 
+  const handleIconVisibility = () => {
+    togglePlay();
+    setShowIcon(true);
+    setTimeout(() => {
+      setShowIcon(false);
+    }, 1000);
+  };
 
   return (
     <div>
@@ -148,12 +156,12 @@ function App() {
                   onEnded={() => { handleNext(currentSong) }}
                   style={{ width: '100%', display: 'none' }}
                 />
-                <img src={currentSong.mainImageUrl} alt="" style={{ height: '25rem', overflow: 'auto', width: '25rem', borderRadius: "20px" }} />
-                <IconButton className="icon" style={{ color: 'aquamarine', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  {isPlaying === true ?
-                    <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} onClick={togglePlay} />
+                <img src={currentSong.mainImageUrl} alt="" style={{ height: '25rem', overflow: 'auto', width: '25rem', borderRadius: "20px", cursor: 'pointer', }} onClick={() => handleIconVisibility()} />
+                <IconButton className="icon" style={{ color: 'rgb(255,255,255,0.5)', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: showIcon ? "block" : "none" }} >
+                  {isPlaying == true ?
+                    <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} />
                     :
-                    <StopCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} onClick={togglePlay} />}
+                    <StopCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} />}
                 </IconButton>
               </div>
             ) : <img src={selectImage} alt="" style={{ height: '25rem', overflow: 'auto', width: '25rem', borderRadius: "20px" }} />}
@@ -161,7 +169,7 @@ function App() {
           <div style={{ height: '70vh', overflow: 'auto', width: '50%' }}>
             <ul className="song-list">
               {songs.map((song, i) => (
-                <li key={song.songName} style={{ background: index === i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid' }} onClick={() => playSong(song)}>
+                <li key={song.songName} style={{ background: index == i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid' }} onClick={() => playSong(song)}>
                   <img src={song.subImageUrl} alt="" className="song-thumbnail" style={{ borderRadius: '10px' }} />
                   <h4 className="song-title">{song.albumName}</h4>
                 </li>
@@ -181,11 +189,11 @@ function App() {
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-                <IconButton style={{ color: 'aquamarine' }} disabled={(index === undefined) ? true : (index === 0 ? true : false)}>
+                <IconButton style={{ color: 'aquamarine' }} disabled={(index === undefined) ? true : (index == 0 ? true : false)}>
                   <ArrowCircleLeftSharpIcon style={{ cursor: 'pointer', padding: '2px' }} onClick={() => { handlePrevious(currentSong) }} />
                 </IconButton>
 
-                {!isPlaying === true ?
+                {!isPlaying == true ?
                   <IconButton style={{ color: 'aquamarine' }} disabled={index !== undefined ? false : true}>
                     <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '3rem' }} onClick={togglePlay} />
                   </IconButton>
