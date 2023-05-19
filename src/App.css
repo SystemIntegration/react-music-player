@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap');
+
+.song-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.song-list li {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.song-thumbnail {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.song-title {
+    margin: 0;
+}
+
+body {
+    background-color: #030303;
+    color: white
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+    background: rgb(219, 219, 219);
+}
