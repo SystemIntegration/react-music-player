@@ -46,9 +46,9 @@ const songs = [
     },
     {
         songName: 'Maan Meri Jaan',
-        mainImageUrl: 'https://i.scdn.co/image/ab67616d0000b2738ea0a445660280a28ae24aa6',
-        subImageUrl: 'https://i.scdn.co/image/ab67616d00001e028ea0a445660280a28ae24aa6',
-        songId: '3usjRG1wwsT3RqcPk75NfW',
+        mainImageUrl: 'https://i.scdn.co/image/ab67616d0000b27337f65266754703fd20d29854',
+        subImageUrl: 'https://i.scdn.co/image/ab67616d00001e0237f65266754703fd20d29854',
+        songId: '1418IuVKQPTYqt7QNJ9RXN',
         artistName: 'King',
         albumName: 'Maan Meri Jaan',
         year: '2022',

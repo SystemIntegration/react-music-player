@@ -264,7 +264,7 @@ function App() {
                       <li key={song.songName} style={{ background: index === i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid',display: 'flex', justifyContent: 'space-between', alignItems: 'center', }} onClick={() => playSong(song)}>
                           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                             <div>
-                              <img src={song.subImageUrl} alt="" style={{ height: '3rem', borderRadius: '10px' }} />
+                              <img src={song.subImageUrl} alt="" style={{ height: '3.5rem', borderRadius: '10px' }} />
                             </div>
                             <div>
                               <p style={{ margin: '1em 0 0.5em 1em' }}>{song.songName}</p>
