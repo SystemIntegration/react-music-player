@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import songs from './Music/songs';
 import Header from './Screens/Header';
-import { IconButton, Slider, ThemeProvider, createTheme } from '@mui/material';
+import { IconButton, Slider} from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import ArrowCircleLeftSharpIcon from '@mui/icons-material/ArrowCircleLeftSharp';
 import ArrowCircleRightSharpIcon from '@mui/icons-material/ArrowCircleRightSharp';
@@ -11,6 +11,40 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import selectImage from './Select.jpg'
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  dir?: string;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
 interface Song {
   mainImageUrl: string | undefined;
@@ -29,6 +63,17 @@ function App() {
   const [showIcon, setShowIcon] = useState(false);
   const audioRef: any = useRef(null);
   const [volume, setVolume] = useState(1); // Initial volume value
+  const theme = useTheme();
+  const [value, setValue] = React.useState(0);
+  const [lyrics, setLyrics] = useState<any>();
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index: number) => {
+    setValue(index);
+  };
 
   useEffect(() => {
     let intervalId: any = null;
@@ -60,6 +105,10 @@ function App() {
       }
     };
 
+    if (audioRef.current) {
+      // API(currentSong);
+      console.log('response',);
+    }
     document.addEventListener('keydown', handleKeyDown);
     window.document.title = currentSong !== undefined ? currentSong.songName : "BMV Music Player"
   });
@@ -140,6 +189,29 @@ function App() {
     }, 1000);
   };
 
+  const url = 'https://spotify23.p.rapidapi.com/track_lyrics/?id=';
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '3f24290d43mshfe9f6a19d74f9fep1bd14cjsndc4efe3f59ff',
+      'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+    }
+  };
+
+  async function API(currentSong: any) {
+    if (currentSong) {
+      try {
+        const response = await fetch(url + currentSong.songId, options);
+        const result = await response.json();
+        const lyrics: any = result.lyrics.lines;
+        setLyrics(lyrics.map((line: any) => { return line.words }))
+        console.log();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   return (
     <div>
       < Header />
@@ -158,7 +230,7 @@ function App() {
                 />
                 <img src={currentSong.mainImageUrl} alt="" style={{ height: '25rem', overflow: 'auto', width: '25rem', borderRadius: "20px", cursor: 'pointer', }} onClick={() => handleIconVisibility()} />
                 <IconButton className="icon" style={{ color: 'rgb(255,255,255,0.5)', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: showIcon ? "block" : "none" }} >
-                  {isPlaying == true ?
+                  {isPlaying === true ?
                     <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} />
                     :
                     <StopCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} />}
@@ -166,34 +238,73 @@ function App() {
               </div>
             ) : <img src={selectImage} alt="" style={{ height: '25rem', overflow: 'auto', width: '25rem', borderRadius: "20px" }} />}
           </div>
-          <div style={{ height: '70vh', overflow: 'auto', width: '50%' }}>
-            <ul className="song-list">
-              {songs.map((song, i) => (
-                <li key={song.songName} style={{ background: index == i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid' }} onClick={() => playSong(song)}>
-                  <img src={song.subImageUrl} alt="" className="song-thumbnail" style={{ borderRadius: '10px' }} />
-                  <h4 className="song-title">{song.albumName}</h4>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Box sx={{ width: 500 }}>
+            <AppBar position="static">
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Songs" />
+                <Tab label="Lyrics" />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={value}
+              onChangeIndex={handleChangeIndex}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
+                  <ul className="song-list">
+                    {songs.map((song, i) => (
+                      <li key={song.songName} style={{ background: index === i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid',display: 'flex', justifyContent: 'space-between', alignItems: 'center', }} onClick={() => playSong(song)}>
+                          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+                            <div>
+                              <img src={song.subImageUrl} alt="" style={{ height: '3rem', borderRadius: '10px' }} />
+                            </div>
+                            <div>
+                              <p style={{ margin: '1em 0 0.5em 1em' }}>{song.songName}</p>
+                              <p style={{ color: '#4C4C4C', margin: '0 0 1em 1em' }}>{song.artistName} | {song.albumName.slice(song.albumName.indexOf('"') + 1, song.albumName.lastIndexOf('"'))} | {song.year}</p>
+                            </div>
+                          </div>
+                          <div>
+                            <div>
+                              <p style={{ margin: '1em 0 0.5em 1em' }}>{song.duration}</p>
+                            </div>
+                          </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
+                  <ul className="song-list">
+                    {lyrics && lyrics.map((song: any) => (
+                      <li key={song.songName}>
+                        <h4 className="song-title">{song}</h4>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </TabPanel>
+            </SwipeableViews>
+          </Box>
         </div>
-        <div style={{
-          position: 'fixed',
-          left: 0,
-          bottom: 0,
-          width: '100%',
-          background: '#212121',
-          height: '7rem',
-        }}>
+        <div style={{ position: 'fixed', left: 0, bottom: 0, width: '100%', background: '#212121', height: '7rem', }}>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-                <IconButton style={{ color: 'aquamarine' }} disabled={(index === undefined) ? true : (index == 0 ? true : false)}>
+                <IconButton style={{ color: 'aquamarine' }} disabled={(index === undefined) ? true : (index === 0 ? true : false)}>
                   <ArrowCircleLeftSharpIcon style={{ cursor: 'pointer', padding: '2px' }} onClick={() => { handlePrevious(currentSong) }} />
                 </IconButton>
 
-                {!isPlaying == true ?
+                {!isPlaying === true ?
                   <IconButton style={{ color: 'aquamarine' }} disabled={index !== undefined ? false : true}>
                     <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '3rem' }} onClick={togglePlay} />
                   </IconButton>

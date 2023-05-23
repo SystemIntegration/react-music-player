@@ -6,7 +6,7 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.1",
+    "@mui/material": "^5.13.2",
     "@mui/styled-engine-sc": "^5.12.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -15,10 +15,12 @@
     "@types/node": "^16.18.31",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
+    "install": "^0.13.0",
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "react-swipeable-views": "^0.14.0",
     "styled-components": "^6.0.0-rc.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -46,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-swipeable-views": "^0.13.1"
   }
 }

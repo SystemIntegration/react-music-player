@@ -3,6 +3,7 @@
 .song-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .song-list li {
