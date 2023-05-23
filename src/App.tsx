@@ -324,10 +324,36 @@ function App() {
                 valueLabelDisplay="auto"
                 valueLabelFormat={formatValueLabel}
                 style={{ width: '80%', color: 'aquamarine' }}
+                sx={{
+                  color: theme.palette.mode === 'dark' ? '#fff' : 'rgba(0,0,0,0.87)',
+                  height: 4,
+                  '& .MuiSlider-thumb': {
+                    width: 8,
+                    height: 8,
+                    transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
+                    '&:before': {
+                      boxShadow: '0 2px 12px 0 rgba(0,0,0,0.4)',
+                    },
+                    '&:hover, &.Mui-focusVisible': {
+                      boxShadow: `0px 0px 0px 8px ${
+                        theme.palette.mode === 'dark'
+                          ? 'rgb(255 255 255 / 16%)'
+                          : 'rgb(0 0 0 / 16%)'
+                      }`,
+                    },
+                    '&.Mui-active': {
+                      width: 20,
+                      height: 20,
+                    },
+                  },
+                  '& .MuiSlider-rail': {
+                    opacity: 0.28,
+                  },
+                }}
               />
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '3rem' }}>
                 <span> {formatTime(currentTime)} / {currentSong && currentSong.duration}</span>
               </div>
               {currentSong &&
@@ -351,6 +377,32 @@ function App() {
                   value={volume}
                   onChange={(e: any) => { handleVolumeChange(e) }}
                   style={{ color: 'aquamarine', margin: '0 1rem' }}
+                  sx={{
+                    color: theme.palette.mode === 'dark' ? '#fff' : 'rgba(0,0,0,0.87)',
+                    height: 4,
+                    '& .MuiSlider-thumb': {
+                      width: 8,
+                      height: 8,
+                      transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
+                      '&:before': {
+                        boxShadow: '0 2px 12px 0 rgba(0,0,0,0.4)',
+                      },
+                      '&:hover, &.Mui-focusVisible': {
+                        boxShadow: `0px 0px 0px 8px ${
+                          theme.palette.mode === 'dark'
+                            ? 'rgb(255 255 255 / 16%)'
+                            : 'rgb(0 0 0 / 16%)'
+                        }`,
+                      },
+                      '&.Mui-active': {
+                        width: 20,
+                        height: 20,
+                      },
+                    },
+                    '& .MuiSlider-rail': {
+                      opacity: 0.28,
+                    },
+                  }}
                 />
               </div>
             </div>
