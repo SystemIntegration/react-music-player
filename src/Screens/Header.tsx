@@ -5,8 +5,8 @@ import { ReactComponent as Logo } from "./logo.svg"
 const Header = () => {
   return (
     <header style={styles.header}>
-        <Logo style={{ width: '3rem', height: '3rem', marginRight: '1rem' }}/>
-      <h1 style={styles.title}>BMV Music Player</h1>
+        <Logo className='logo'/>
+      <p className='logoName' style={styles.title}>BMV Music Player</p>
     </header>
   );
 };

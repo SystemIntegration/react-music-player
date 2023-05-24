@@ -44,11 +44,38 @@ body {
 
 
 .mainImage {
-    height: 24rem;
+    height: 22rem;
     overflow: auto;
-    width: 24rem;
+    width: 22rem;
     border-radius: 20px;
-    cursor: pointer
+    cursor: pointer;
+}
+
+.mainImageplaying {
+    height: 22rem;
+    overflow: auto;
+    width: 22rem;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 1rem 0.4rem aquamarine;
+    animation: waveAnimation 1s infinite;
+}
+
+@keyframes waveAnimation {
+    0% {
+        /* Starting animation styles */
+        transform: translateY(0);
+    }
+
+    50% {
+        /* Middle animation styles */
+        transform: translateY(-5px);
+    }
+
+    100% {
+        /* Ending animation styles */
+        transform: translateY(0);
+    }
 }
 
 .leftDiv {
@@ -84,17 +111,37 @@ body {
 .musicPlayerMB {
     display: none !important;
 }
+.logoName {
+    font-size: 1.5rem !important;
+}
+.logo {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+}
 
 @media screen and (max-width: 750px) {
     .mainImage {
         height: 20rem;
         width: 20rem;
     }
+    .mainImageplaying {
+        height: 20rem;
+        width: 20rem;
+        box-shadow: 0 0 1rem 0.4rem aquamarine;
+        animation: waveAnimation 1s infinite;
+    }
 }
 @media screen and (max-width: 640px) {
     .mainImage {
         height: 17rem;
         width: 17rem;
+    }
+    .mainImageplaying {
+        height: 17rem;
+        width: 17rem;
+        box-shadow: 0 0 1rem 0.4rem aquamarine;
+        animation: waveAnimation 1s infinite;
     }
 }
 @media screen and (max-width: 560px) {
@@ -114,6 +161,12 @@ body {
     .mainImage {
         height: 10rem;
         width: 10rem;
+    }
+    .mainImageplaying {
+        height: 10rem;
+        width: 10rem;
+        box-shadow: 0 0 1rem 0.4rem aquamarine;
+        animation: waveAnimation 1s infinite;
     }
     .musicPlayerWeb{
         display: none;

@@ -98,7 +98,7 @@ function App() {
 
   useEffect(() => {
     if (audioRef.current) {
-      // API(currentSong);
+      API(currentSong);
     }
   }, [maxTime]);
 
@@ -229,7 +229,7 @@ function App() {
                   onEnded={() => { handleNext(currentSong) }}
                   style={{ display: 'none' }}
                 />
-                <img src={currentSong.mainImageUrl} className='mainImage' alt="" onClick={() => handleIconVisibility()} />
+                <img src={currentSong.mainImageUrl} className={`mainImage${isPlaying ? 'playing' : ''}`} alt="" onClick={() => handleIconVisibility()} />
                 <IconButton className="icon" style={{ color: 'rgb(255,255,255,0.5)', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: showIcon ? "block" : "none" }} >
                   {isPlaying === true ?
                     <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} />
@@ -356,7 +356,7 @@ function App() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '1.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '3rem' }}>
-                <span> {formatTime(currentTime)} / {currentSong && currentSong.duration}</span>
+                <span> {currentSong && formatTime(currentTime)} {currentSong && "/"} {currentSong && currentSong.duration}</span>
               </div>
               {currentSong &&
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
@@ -407,6 +407,118 @@ function App() {
                 />
               </div>
             </div>
+          </div>
+        </div>
+        <div className='musicPlayerMB'>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Slider
+              value={currentTime}
+              onChange={handleSliderChange}
+              min={0}
+              max={maxTime}
+              valueLabelDisplay="auto"
+              valueLabelFormat={formatValueLabel}
+              style={{ width: '80%', color: 'aquamarine', padding:0 }}
+              sx={{
+                color: theme.palette.mode === 'dark' ? '#fff' : 'rgba(0,0,0,0.87)',
+                height: 4,
+                '& .MuiSlider-thumb': {
+                  width: 8,
+                  height: 8,
+                  transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
+                  '&:before': {
+                    boxShadow: '0 2px 12px 0 rgba(0,0,0,0.4)',
+                  },
+                  '&:hover, &.Mui-focusVisible': {
+                    boxShadow: `0px 0px 0px 8px ${theme.palette.mode === 'dark'
+                      ? 'rgb(255 255 255 / 16%)'
+                      : 'rgb(0 0 0 / 16%)'
+                      }`,
+                  },
+                  '&.Mui-active': {
+                    width: 20,
+                    height: 20,
+                  },
+                },
+                '& .MuiSlider-rail': {
+                  opacity: 0.28,
+                },
+              }}
+            />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <p style={{ margin: '1rem' }}>{currentSong && formatTime(currentTime)}</p>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <IconButton style={{ color: 'aquamarine' }} disabled={(index === undefined) ? true : (index === 0 ? true : false)}>
+                <ArrowCircleLeftSharpIcon style={{ cursor: 'pointer', padding: '2px' }} onClick={() => { handlePrevious(currentSong) }} />
+              </IconButton>
+
+              {!isPlaying === true ?
+                <IconButton style={{ color: 'aquamarine' }} disabled={index !== undefined ? false : true}>
+                  <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '3rem' }} onClick={togglePlay} />
+                </IconButton>
+                :
+                <IconButton style={{ color: 'aquamarine' }} disabled={index !== undefined ? false : true}>
+                  <StopCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '3rem' }} onClick={togglePlay} />
+                </IconButton>}
+              <IconButton style={{ color: 'aquamarine' }} disabled={(index === songs.length - 1) ? true : false}>
+                <ArrowCircleRightSharpIcon style={{ cursor: 'pointer', padding: '2px' }} onClick={() => { handleNext(currentSong) }} />
+              </IconButton>
+            </div>
+            <p style={{ margin: '1rem' }}>{currentSong && currentSong.duration}</p>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Box sx={{ width: 500 }} >
+              <AppBar position="static">
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  indicatorColor="secondary"
+                  textColor="inherit"
+                  variant="fullWidth"
+                  aria-label="full width tabs example"
+                >
+                  <Tab label="Songs" />
+                  <Tab label="Lyrics" />
+                </Tabs>
+              </AppBar>
+              <SwipeableViews
+                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                index={value}
+                onChangeIndex={handleChangeIndex}
+                style={{ height: '32vh', overflow: 'auto', width: '100%' }}
+              >
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                  <div >
+                    <ul className="song-list">
+                      {songs.map((song, i) => (
+                        <li key={song.songName} style={{ background: index === i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }} onClick={() => playSong(song)}>
+                          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+                            <div>
+                              <img src={song.subImageUrl} alt="" style={{ height: '3.5rem', borderRadius: '10px' }} />
+                            </div>
+                            <div>
+                              <p style={{ marginLeft: '1em' }}>{song.songName}</p>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                  <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
+                    <ul className="song-list">
+                      {lyrics && lyrics.map((song: any) => (
+                        <li key={song.songName}>
+                          <h4 className="song-title">{song}</h4>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </TabPanel>
+              </SwipeableViews>
+            </Box>
           </div>
         </div>
       </div>
