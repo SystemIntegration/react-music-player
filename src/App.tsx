@@ -250,8 +250,8 @@ function App() {
                   variant="fullWidth"
                   aria-label="full width tabs example"
                 >
-                  <Tab label="Songs" />
-                  <Tab label="Lyrics" />
+                  <Tab label="Songs" style={{color:"black", backgroundColor:'aquamarine'}}/>
+                  <Tab label="Lyrics" style={{color:"black", backgroundColor:'aquamarine'}}/>
                 </Tabs>
               </AppBar>
               <SwipeableViews
@@ -473,13 +473,11 @@ function App() {
                 <Tabs
                   value={value}
                   onChange={handleChange}
-                  indicatorColor="secondary"
-                  textColor="inherit"
                   variant="fullWidth"
                   aria-label="full width tabs example"
                 >
-                  <Tab label="Songs" />
-                  <Tab label="Lyrics" />
+                  <Tab label="Songs"  style={{color:"black", backgroundColor:'aquamarine'}}/>
+                  <Tab label="Lyrics" style={{color:"black", backgroundColor:'aquamarine'}} />
                 </Tabs>
               </AppBar>
               <SwipeableViews
