@@ -24,7 +24,7 @@
   - For lyrics and song information we use RapidAPI (https://rapidapi.com/Glavier/api/spotify23)
 
 ## Getting Started
-  - Clone the repository: <code>git@github.com:systemintegration/react-movie-library.git</code>
+  - Clone the repository: <code>git@github.com:systemintegration/react-music-player.git</code>
   - Install dependencies: <code>npm install</code>
   - Start the development server: <code>npm start</code>
 
@@ -48,4 +48,4 @@ In the project directory, you can run:
    ![lyricsSong.png](./lyricsSong.png)
 
 ## Demo
-   - You can try out the application at <a href="https://systemintegration.github.io/react-movie-library/">https://systemintegration.github.io/react-movie-library/</a>
+   - You can try out the application at <a href="https://systemintegration.github.io/react-music-player">https://systemintegration.github.io/react-music-player</a>
