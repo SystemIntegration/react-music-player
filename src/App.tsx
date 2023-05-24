@@ -96,6 +96,11 @@ function App() {
     }
   }, [currentTime, maxTime]);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      API(currentSong);
+    }
+  }, [maxTime]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -105,10 +110,6 @@ function App() {
       }
     };
 
-    if (audioRef.current) {
-      // API(currentSong);
-      console.log('response',);
-    }
     document.addEventListener('keydown', handleKeyDown);
     window.document.title = currentSong !== undefined ? currentSong.songName : "BMV Music Player"
   });
@@ -193,7 +194,7 @@ function App() {
   const options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '3f24290d43mshfe9f6a19d74f9fep1bd14cjsndc4efe3f59ff',
+      'X-RapidAPI-Key': 'f2f77ff9a7mshe2b22fe80c44061p1583dejsn673496fb31a3',
       'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
     }
   };
@@ -282,15 +283,15 @@ function App() {
                 </div>
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
-                <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
-                  <ul className="song-list">
-                    {lyrics && lyrics.map((song: any) => (
-                      <li key={song.songName}>
-                        <h4 className="song-title">{song}</h4>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                  <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
+                    <ul className="song-list">
+                      {lyrics && lyrics.map((song: any) => (
+                        <li key={song.songName}>
+                          <h4 className="song-title">{song}</h4>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
               </TabPanel>
             </SwipeableViews>
           </Box>
