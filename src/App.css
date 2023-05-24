@@ -41,3 +41,84 @@ body {
     border-radius: 30px;
     background: rgb(219, 219, 219);
 }
+
+
+.mainImage {
+    height: 24rem;
+    overflow: auto;
+    width: 24rem;
+    border-radius: 20px;
+    cursor: pointer
+}
+
+.leftDiv {
+    height: 70vh;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rightDiv {
+    height: 70vh;
+    overflow: auto;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upperDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.musicPlayerWeb{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #212121;
+    height: 7rem;
+}
+.musicPlayerMB {
+    display: none !important;
+}
+
+@media screen and (max-width: 750px) {
+    .mainImage {
+        height: 20rem;
+        width: 20rem;
+    }
+}
+@media screen and (max-width: 640px) {
+    .mainImage {
+        height: 17rem;
+        width: 17rem;
+    }
+}
+@media screen and (max-width: 560px) {
+    .upperDiv {
+        display: block;
+    }
+    .leftDiv {
+        height: 12rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .rightDiv {
+        display: none !important;
+    }
+    .mainImage {
+        height: 10rem;
+        width: 10rem;
+    }
+    .musicPlayerWeb{
+        display: none;
+    }
+    .musicPlayerMB {
+        display: block !important;
+    }
+}

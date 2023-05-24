@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import songs from './Music/songs';
 import Header from './Screens/Header';
-import { IconButton, Slider} from '@mui/material';
+import { IconButton, Slider } from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import ArrowCircleLeftSharpIcon from '@mui/icons-material/ArrowCircleLeftSharp';
 import ArrowCircleRightSharpIcon from '@mui/icons-material/ArrowCircleRightSharp';
@@ -98,7 +98,7 @@ function App() {
 
   useEffect(() => {
     if (audioRef.current) {
-      API(currentSong);
+      // API(currentSong);
     }
   }, [maxTime]);
 
@@ -217,8 +217,8 @@ function App() {
     <div>
       < Header />
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ height: '70vh', overflow: 'auto', width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className='upperDiv'>
+          <div className='leftDiv'>
             {currentSong ? (
               <div style={{ textAlign: 'center', position: 'relative' }}>
                 <audio
@@ -227,9 +227,9 @@ function App() {
                   autoPlay
                   controls
                   onEnded={() => { handleNext(currentSong) }}
-                  style={{ width: '100%', display: 'none' }}
+                  style={{ display: 'none' }}
                 />
-                <img src={currentSong.mainImageUrl} alt="" style={{ height: '25rem', overflow: 'auto', width: '25rem', borderRadius: "20px", cursor: 'pointer', }} onClick={() => handleIconVisibility()} />
+                <img src={currentSong.mainImageUrl} className='mainImage' alt="" onClick={() => handleIconVisibility()} />
                 <IconButton className="icon" style={{ color: 'rgb(255,255,255,0.5)', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: showIcon ? "block" : "none" }} >
                   {isPlaying === true ?
                     <PlayCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} />
@@ -237,32 +237,33 @@ function App() {
                     <StopCircleIcon style={{ cursor: 'pointer', padding: '2px', fontSize: '6rem' }} />}
                 </IconButton>
               </div>
-            ) : <img src={selectImage} alt="" style={{ height: '25rem', overflow: 'auto', width: '25rem', borderRadius: "20px" }} />}
+            ) : <img className='mainImage' src={selectImage} alt="" />}
           </div>
-          <Box sx={{ width: 500 }}>
-            <AppBar position="static">
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                indicatorColor="secondary"
-                textColor="inherit"
-                variant="fullWidth"
-                aria-label="full width tabs example"
+          <div className='rightDiv'>
+            <Box sx={{ width: 500 }}>
+              <AppBar position="static">
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  indicatorColor="secondary"
+                  textColor="inherit"
+                  variant="fullWidth"
+                  aria-label="full width tabs example"
+                >
+                  <Tab label="Songs" />
+                  <Tab label="Lyrics" />
+                </Tabs>
+              </AppBar>
+              <SwipeableViews
+                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                index={value}
+                onChangeIndex={handleChangeIndex}
               >
-                <Tab label="Songs" />
-                <Tab label="Lyrics" />
-              </Tabs>
-            </AppBar>
-            <SwipeableViews
-              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-              index={value}
-              onChangeIndex={handleChangeIndex}
-            >
-              <TabPanel value={value} index={0} dir={theme.direction}>
-                <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
-                  <ul className="song-list">
-                    {songs.map((song, i) => (
-                      <li key={song.songName} style={{ background: index === i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid',display: 'flex', justifyContent: 'space-between', alignItems: 'center', }} onClick={() => playSong(song)}>
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                  <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
+                    <ul className="song-list">
+                      {songs.map((song, i) => (
+                        <li key={song.songName} style={{ background: index === i ? '#1D1D1D' : '#030303', color: 'white', borderBottom: '1px solid', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }} onClick={() => playSong(song)}>
                           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                             <div>
                               <img src={song.subImageUrl} alt="" style={{ height: '3.5rem', borderRadius: '10px' }} />
@@ -277,12 +278,12 @@ function App() {
                               <p style={{ margin: '1em 0 0.5em 1em' }}>{song.duration}</p>
                             </div>
                           </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </TabPanel>
-              <TabPanel value={value} index={1} dir={theme.direction}>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={1} dir={theme.direction}>
                   <div style={{ height: '60vh', overflow: 'auto', width: '100%' }}>
                     <ul className="song-list">
                       {lyrics && lyrics.map((song: any) => (
@@ -292,11 +293,12 @@ function App() {
                       ))}
                     </ul>
                   </div>
-              </TabPanel>
-            </SwipeableViews>
-          </Box>
+                </TabPanel>
+              </SwipeableViews>
+            </Box>
+          </div>
         </div>
-        <div style={{ position: 'fixed', left: 0, bottom: 0, width: '100%', background: '#212121', height: '7rem', }}>
+        <div className='musicPlayerWeb'>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -336,11 +338,10 @@ function App() {
                       boxShadow: '0 2px 12px 0 rgba(0,0,0,0.4)',
                     },
                     '&:hover, &.Mui-focusVisible': {
-                      boxShadow: `0px 0px 0px 8px ${
-                        theme.palette.mode === 'dark'
-                          ? 'rgb(255 255 255 / 16%)'
-                          : 'rgb(0 0 0 / 16%)'
-                      }`,
+                      boxShadow: `0px 0px 0px 8px ${theme.palette.mode === 'dark'
+                        ? 'rgb(255 255 255 / 16%)'
+                        : 'rgb(0 0 0 / 16%)'
+                        }`,
                     },
                     '&.Mui-active': {
                       width: 20,
@@ -389,11 +390,10 @@ function App() {
                         boxShadow: '0 2px 12px 0 rgba(0,0,0,0.4)',
                       },
                       '&:hover, &.Mui-focusVisible': {
-                        boxShadow: `0px 0px 0px 8px ${
-                          theme.palette.mode === 'dark'
-                            ? 'rgb(255 255 255 / 16%)'
-                            : 'rgb(0 0 0 / 16%)'
-                        }`,
+                        boxShadow: `0px 0px 0px 8px ${theme.palette.mode === 'dark'
+                          ? 'rgb(255 255 255 / 16%)'
+                          : 'rgb(0 0 0 / 16%)'
+                          }`,
                       },
                       '&.Mui-active': {
                         width: 20,
